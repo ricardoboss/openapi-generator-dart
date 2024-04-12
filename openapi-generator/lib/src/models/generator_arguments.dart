@@ -20,6 +20,10 @@ class GeneratorArguments {
   ///
   /// The default location is: .dart_tool/openapi-generator-cache.json
   final String cachePath;
+
+  /// Informs the generator to disable the cache.
+  final bool disableCache;
+
   final bool isDebug;
 
   /// Use a custom pubspec file when generating.
@@ -117,7 +121,8 @@ class GeneratorArguments {
         inputSpec =
             annotations.readPropertyOrDefault('inputSpec', InputSpec.json()),
         updateAnnotatedFileTimestamp = annotations.readPropertyOrDefault(
-            'updateAnnotatedFileTimestamp', true);
+            'updateAnnotatedFileTimestamp', true),
+        disableCache = annotations.readPropertyOrDefault('disableCache', false);
 
   /// The stringified name of the [Generator].
   String get generatorName => generator == Generator.dart
