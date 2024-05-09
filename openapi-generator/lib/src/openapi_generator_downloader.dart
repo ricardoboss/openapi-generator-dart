@@ -11,6 +11,10 @@ Future<String> getOpenApiGeneratorJarPath({
   String? version,
   bool usePackaged = false,
 }) async {
+  if (Platform.environment['OPENAPI_GENERATOR_JAR'] != null) {
+    return Platform.environment['OPENAPI_GENERATOR_JAR']!;
+  }
+
   if (usePackaged) {
     return _getPackagedOpenApiGeneratorJarPath();
   }
