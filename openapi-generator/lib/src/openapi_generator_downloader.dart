@@ -111,18 +111,9 @@ Future<void> _downloadOpenApiGeneratorJar(String? version) async {
 
   await response.pipe(jarFile.openWrite());
 
-  // create symlink to latest
   if (isLatest) {
     final latestPath = await _getDownloadedOpenApiGeneratorJarPath(null);
-    if (await File(latestPath).exists()) {
-      await File(latestPath).delete();
-    }
-
-    if (Platform.isWindows) {
-      await Process.run('cmd', ['/c', 'mklink', latestPath, jarPath]);
-    } else {
-      await Process.run('ln', ['-s', jarPath, latestPath]);
-    }
+    await jarFile.copy(latestPath);
   }
 
   logOutputMessage(
