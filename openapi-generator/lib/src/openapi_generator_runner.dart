@@ -97,9 +97,18 @@ class OpenapiGenerator extends GeneratorForAnnotation<annots.Openapi> {
     // Include java environment variables in openApiCliCommand
     var javaOpts = Platform.environment['JAVA_OPTS'] ?? '';
 
+    var javaBin = 'java';
+    if (Platform.environment['JAVA_HOME'] != null) {
+      javaBin = '${Platform.environment['JAVA_HOME']}/bin/java';
+    }
+
+    if (Platform.isWindows) {
+      javaBin = '$javaBin.exe';
+    }
+
     ProcessResult result;
     result = await _processRunner.run(
-      'java',
+      javaBin,
       [
         if (javaOpts.isNotEmpty) javaOpts,
         '-jar',
