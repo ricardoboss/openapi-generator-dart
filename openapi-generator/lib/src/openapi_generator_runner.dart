@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:isolate';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
@@ -9,6 +8,7 @@ import 'package:logging/logging.dart';
 import 'package:openapi_generator/src/determine_flutter_project_status.dart';
 import 'package:openapi_generator/src/gen_on_spec_changes.dart';
 import 'package:openapi_generator/src/models/output_message.dart';
+import 'package:openapi_generator/src/openapi_generator_downloader.dart';
 import 'package:openapi_generator/src/process_runner.dart';
 import 'package:openapi_generator/src/utils.dart';
 import 'package:openapi_generator_annotations/openapi_generator_annotations.dart'
@@ -90,9 +90,7 @@ class OpenapiGenerator extends GeneratorForAnnotation<annots.Openapi> {
       ),
     );
 
-    var binPath = (await Isolate.resolvePackageUri(
-            Uri.parse('package:openapi_generator_cli/openapi-generator.jar')))!
-        .toFilePath(windows: Platform.isWindows);
+    var generatorJarPath = await getOpenApiGeneratorJarPath();
 
     // Include java environment variables in openApiCliCommand
     var javaOpts = Platform.environment['JAVA_OPTS'] ?? '';
@@ -112,7 +110,7 @@ class OpenapiGenerator extends GeneratorForAnnotation<annots.Openapi> {
       [
         if (javaOpts.isNotEmpty) javaOpts,
         '-jar',
-        binPath,
+        generatorJarPath,
         ...args,
       ],
       workingDirectory: Directory.current.path,
