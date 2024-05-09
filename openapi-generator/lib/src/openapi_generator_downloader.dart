@@ -44,14 +44,15 @@ Future<bool> _isDownloadedOpenApiGeneratorJarAvailable(String? version) async {
 }
 
 Future<String> _getDownloadedOpenApiGeneratorJarPath(String? version) async {
-  final tempDir = await Directory.systemTemp.createTemp('openapi_generator');
-  if (!await tempDir.exists()) {
-    await tempDir.create();
+  final toolDir =
+      Directory(Directory.systemTemp.absolute.path + '/openapi-generator');
+  if (!await toolDir.exists()) {
+    await toolDir.create();
   }
 
   version ??= 'latest';
 
-  return tempDir.path + '/openapi-generator-$version.jar';
+  return toolDir.path + '/openapi-generator-$version.jar';
 }
 
 Future<void> _downloadOpenApiGeneratorJar(String? version) async {
