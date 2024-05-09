@@ -11,8 +11,16 @@ Future<String> getOpenApiGeneratorJarPath({
   String? version,
   bool usePackaged = false,
 }) async {
-  if (Platform.environment['OPENAPI_GENERATOR_JAR'] != null) {
-    return Platform.environment['OPENAPI_GENERATOR_JAR']!;
+  final envOverride = Platform.environment['OPENAPI_GENERATOR_JAR'];
+  if (envOverride != null) {
+    logOutputMessage(
+      log: log,
+      communication: OutputMessage(
+        message: 'Using OPENAPI_GENERATOR_JAR environment variable: $envOverride',
+      ),
+    );
+
+    return envOverride;
   }
 
   if (usePackaged) {
