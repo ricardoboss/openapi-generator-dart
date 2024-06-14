@@ -101,7 +101,7 @@ class OpenapiGenerator extends GeneratorForAnnotation<annots.Openapi> {
     }
 
     if (Platform.isWindows) {
-      javaBin = '$javaBin.exe';
+      javaBin = '$javaBin.exe'.replaceAll(' ', r'\ ');
     }
 
     ProcessResult result;
