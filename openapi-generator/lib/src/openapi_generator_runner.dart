@@ -102,7 +102,7 @@ class OpenapiGenerator extends GeneratorForAnnotation<annots.Openapi> {
     }
 
     if (Platform.environment['JAVA_HOME'] != null) {
-      javaBin = '"${Platform.environment['JAVA_HOME']}/bin/$javaBin"';
+      javaBin = '${Platform.environment['JAVA_HOME']}/bin/$javaBin';
     }
 
     ProcessResult result;
