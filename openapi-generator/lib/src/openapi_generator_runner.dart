@@ -96,12 +96,13 @@ class OpenapiGenerator extends GeneratorForAnnotation<annots.Openapi> {
     var javaOpts = Platform.environment['JAVA_OPTS'] ?? '';
 
     var javaBin = 'java';
-    if (Platform.environment['JAVA_HOME'] != null) {
-      javaBin = '${Platform.environment['JAVA_HOME']}/bin/java';
-    }
 
     if (Platform.isWindows) {
-      javaBin = '$javaBin.exe'.replaceAll(' ', r'\ ');
+      javaBin = '$javaBin.exe';
+    }
+
+    if (Platform.environment['JAVA_HOME'] != null) {
+      javaBin = '"${Platform.environment['JAVA_HOME']}/bin/$javaBin"';
     }
 
     ProcessResult result;
